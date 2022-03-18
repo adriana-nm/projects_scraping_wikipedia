@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import re
-import time
 
 pd.set_option('display.max_columns', None)
 

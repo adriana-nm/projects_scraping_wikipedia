@@ -14,6 +14,10 @@ access the list of sovereign states and enter into each state to obtain informat
 Unlike the previous project, Wikipedia website is scraping friendly. This will allow us to use the same code to extract
 the same information from many countries. 
 
+Due to the list of countries is extensive the amount of request in the process takes around 140-150 seconds. If you want 
+to apply this function for the first ```n``` countries instead, you'll need to introduce the number of countries you want 
+inside the function ```wikipedia_country_data()``` located at the end of the script.
+
 The script will:
 * Create the dataframe
 * Access wikipedia list of sovereign states
@@ -22,9 +26,7 @@ The script will:
 * Iterate this list, extract and populate the dataframe with the country name, capital, ISO code, currency, area and nominal gdp.
 * Return the dataframe
 
-Due to the list of countries is extensive the amount of request in the process takes around 140-150 seconds. If you want 
-to apply this function for the first ```n``` countries instead, you'll need to introduce the number of countries you want 
-inside the function ```wikipedia_country_data()``` located at the end of the script.
+![plot](results_project_wikipedia.png)
 
 
 ## Using this repository
