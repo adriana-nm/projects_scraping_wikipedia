@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import re
+import time
 
 pd.set_option('display.max_columns', None)
 
@@ -14,7 +15,8 @@ def get_request(url):
     headers = {
         'User-Agent': 'user_access'
     }
-    html_text = requests.get(url, headers=headers).text
+    response = requests.get(url, headers=headers)
+    html_text = response.text
     return BeautifulSoup(html_text, 'lxml')
 
 
@@ -53,20 +55,29 @@ def get_gdp(soup):
     return gdp
 
 
-def wikipedia_country_data():
+def wikipedia_country_data(first_n_countries = None):
     df = create_df()
     url_countries = "https://en.wikipedia.org/wiki/List_of_sovereign_states"
     soup_all = get_request(url_countries)
     countries_a_tag_list = soup_all.select('tr > td > b > a')
+    countries_soup = []
+    count = 0
     for country_a_tag in countries_a_tag_list:
+        if first_n_countries != None :
+             if count == first_n_countries:
+                 break
         url = 'https://en.wikipedia.org' + country_a_tag['href']
-        soup = get_request(url)
-        country = soup.find('h1', class_='firstHeading mw-first-heading').text
-        capital, currency, iso = get_data(soup)
-        area = get_area(soup)
-        gdp = get_gdp(soup)
+        countries_soup.append(get_request(url))
+        count = count + 1
+    for country_soup in countries_soup:
+        country = country_soup.find('h1', class_='firstHeading mw-first-heading').text
+        capital, currency, iso = get_data(country_soup)
+        area = get_area(country_soup)
+        gdp = get_gdp(country_soup)
         df = df.append({'country': country, 'iso': iso, 'capital': capital, 'area': area, 'nominal_gdp_in_USD': gdp, 'currency': currency}, ignore_index=True)
     return df
 
 
-print (wikipedia_country_data())
+
+df = wikipedia_country_data()
+print(df)
