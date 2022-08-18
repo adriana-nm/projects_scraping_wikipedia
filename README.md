@@ -48,3 +48,4 @@ To run the script locally you will need to have installed:
     * pandas:1.1.3
     * request:2.24.0
     * beautifulsoup4:4.9.3
+    * re:2.2.1
